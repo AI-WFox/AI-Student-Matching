@@ -19,7 +19,7 @@ An intelligent study partner recommendation system that uses Natural Language Pr
    ```bash
    git clone [https://github.com/AI-WFox/AI-Student-Matching.git](https://github.com/AI-WFox/AI-Student-Matching.git)
 
-```
+   ```
 
 2. Install dependencies:
 ```bash
