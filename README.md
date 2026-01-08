@@ -43,9 +43,7 @@ docker build -t ai-student-matching .
 2. Run the image (port 8080):
 ```bash
 # We mount a local folder to the container's '/app/data'
-docker run -p 8080:8501 \
-  -v ./data:/app/data \
-  streamlit-pro
+docker run -p 8080:8501 -v ./data:/app/data ai-student-matching
 ```
 
 ## Project Structure
