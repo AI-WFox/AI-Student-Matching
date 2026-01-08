@@ -58,7 +58,7 @@ EXPOSE 8501
 VOLUME ["/app/data"]
 
 # Healthcheck to ensure the container is ready to accept traffic
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health || exit 1
+HEALTHCHECK CMD python -c "import sys, urllib.request; resp = urllib.request.urlopen('http://localhost:8501/_stcore/health', timeout=2); sys.exit(0 if getattr(resp, 'status', getattr(resp, 'getcode', lambda: 1)()) == 200 else 1)"
 
 # Launch the application
 CMD ["streamlit", "run", "app.py"]
