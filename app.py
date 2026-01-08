@@ -3,6 +3,9 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
+import os
+import sys
+import ast
 
 # --- Cấu hình ---
 st.set_page_config(page_title="AI Matching", page_icon="🧩", layout="centered")
@@ -14,28 +17,46 @@ def load_model():
 
 model = load_model()
 
-# --- Dữ liệu mẫu ---
-data = {
-    "Tên": ["Ngọc", "Lan", "Nam", "Vy", "Bảo"],
-    "Môn học": [["Cơ sở lập trình"], ["Toán rời rạc"], ["Kỹ năng mềm", "Toán rời rạc"], ["Nhập môn CNTT"], ["Kỹ năng mềm"]],
-    "Thời gian rảnh": [["Sáng", "Chiều"], ["Chiều"], ["Tối"], ["Sáng"], ["Sáng", "Chiều"]],
-    "Giới tính": ["Nữ", "Nữ", "Nam", "Nữ", "Nam"],
-    "Sở thích": [
-        "Thích code web, đọc sách công nghệ",
-        "Yêu thích Toán học và logic",
-        "Thích làm việc nhóm, nói chuyện nhiều",
-        "Yêu nghệ thuật, thích thiết kế",
-        "Thích nghiên cứu AI và công nghệ mới"
-    ],
-    "Tính cách": [
-        "Lập di, kiên nhẫn",
-        "Năng động, hướng ngoại",
-        "Vui vẻ, thân thiện",
-        "Trầm tính, sáng tạo",
-        "Phân tích logic, ít nói"
-    ]
-}
-df = pd.DataFrame(data)
+# --- Load dữ liệu ---
+@st.cache_data
+def load_data():
+    csv_path = "data/user_data.csv"
+    
+    if os.path.exists(csv_path):
+        try:
+            df = pd.read_csv(csv_path)
+            # Chuyển chuỗi -> list lại cho các cột chứa danh sách
+            for col in ["Môn học", "Thời gian rảnh"]:
+                df[col] = df[col].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+            print(f"Đã tải dữ liệu từ {csv_path}", file=sys.stderr)
+            return df
+        except Exception as e:
+            print(f"Không thể đọc file CSV: {e}. Sử dụng dữ liệu mẫu.", file=sys.stderr)
+    
+    # Dữ liệu mẫu (fallback)
+    data = {
+        "Tên": ["Ngọc", "Lan", "Nam", "Vy", "Bảo"],
+        "Môn học": [["Cơ sở lập trình"], ["Toán rời rạc"], ["Kỹ năng mềm", "Toán rời rạc"], ["Nhập môn CNTT"], ["Kỹ năng mềm"]],
+        "Thời gian rảnh": [["Sáng", "Chiều"], ["Chiều"], ["Tối"], ["Sáng"], ["Sáng", "Chiều"]],
+        "Giới tính": ["Nữ", "Nữ", "Nam", "Nữ", "Nam"],
+        "Sở thích": [
+            "Thích code web, đọc sách công nghệ",
+            "Yêu thích Toán học và logic",
+            "Thích làm việc nhóm, nói chuyện nhiều",
+            "Yêu nghệ thuật, thích thiết kế",
+            "Thích nghiên cứu AI và công nghệ mới"
+        ],
+        "Tính cách": [
+            "Lập di, kiên nhẫn",
+            "Năng động, hướng ngoại",
+            "Vui vẻ, thân thiện",
+            "Trầm tính, sáng tạo",
+            "Phân tích logic, ít nói"
+        ]
+    }
+    return pd.DataFrame(data)
+
+df = load_data()
 
 # --- Tính vector mô tả cá nhân ---
 @st.cache_data

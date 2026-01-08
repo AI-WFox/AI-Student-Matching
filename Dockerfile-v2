@@ -1,0 +1,64 @@
+# ------------------------------------------------------------------------------------
+# STAGE 1: THE BUILDER
+# We use a heavier image to compile dependencies if needed, then discard it.
+# ------------------------------------------------------------------------------------
+FROM python:3.14-slim as builder
+
+# Prevent python from writing pyc files and buffering stdout
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /build
+
+# install system dependencies required for building some python packages
+# (e.g., gcc for numpy/pandas if wheels aren't available)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements FIRST to leverage Docker caching
+# If requirements.txt doesn't change, this step is skipped on re-builds
+COPY requirements.txt .
+
+# Install dependencies into a specific location (--prefix) so we can copy them later
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# ------------------------------------------------------------------------------------
+# STAGE 2: THE RUNNER (FINAL IMAGE)
+# We use a fresh slim image and only copy what we need.
+# ------------------------------------------------------------------------------------
+FROM python:3.14-slim
+
+WORKDIR /app
+
+# 1. SECURITY: Create a non-root user and group
+# We use a specific UID/GID (1001) to ensure consistency
+RUN groupadd -r appgroup && useradd -r -g appgroup -u 1001 -m appuser
+
+# 2. OPTIMIZATION: Copy only the installed python packages from the builder stage
+COPY --from=builder /install /usr/local
+
+# 3. DATA: Create a directory for persistent data and set permissions
+# We need to ensure our non-root user owns the WORKDIR and the data directory
+RUN mkdir -p /app/data && \
+    chown -R appuser:appgroup /app
+
+# Switch to the non-root user
+USER appuser
+
+# Copy the rest of the application code
+# Note: We do this LAST because code changes most frequently
+COPY --chown=appuser:appgroup app.py .
+
+# Expose the specific Streamlit port
+EXPOSE 8501
+
+# Declare a volume for persistent data (e.g., user uploads or logs)
+VOLUME ["/app/data"]
+
+# Healthcheck to ensure the container is ready to accept traffic
+HEALTHCHECK CMD python -c "import urllib.request, sys; resp = urllib.request.urlopen('http://localhost:8501/_stcore/health'); sys.exit(0 if resp.getcode() == 200 else 1)"
+
+# Launch the application
+CMD ["streamlit", "run", "app.py"]
