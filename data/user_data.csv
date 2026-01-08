@@ -1,0 +1,11 @@
+Tên,Môn học,Thời gian rảnh,Giới tính,Sở thích,Tính cách
+Ngọc,['Cơ sở lập trình'],"['Sáng', 'Chiều']",Nữ,"Thích code web, đọc sách công nghệ","Điềm tĩnh, kiên nhẫn"
+Lan,['Toán rời rạc'],['Chiều'],Nữ,Yêu thích Toán học và logic,"Năng động, hướng ngoại"
+Nam,"['Kỹ năng mềm', 'Toán rời rạc']",['Tối'],Nam,"Thích làm việc nhóm, nói chuyện nhiều","Vui vẻ, thân thiện"
+Vy,['Nhập môn CNTT'],['Sáng'],Nữ,"Yêu nghệ thuật, thích thiết kế","Trầm tính, sáng tạo"
+Bảo,['Kỹ năng mềm'],"['Sáng', 'Chiều']",Nam,Thích nghiên cứu AI và công nghệ mới,"Phân tích logic, ít nói"
+Huy,"['Cơ sở lập trình', 'Kỹ thuật lập trình']","['Chiều', 'Tối']",Nam,"Thích phát triển frontend và thử nghiệm UI","Cẩn thận, sáng tạo"
+Mai,"['Nhập môn CNTT', 'Kỹ năng mềm']","['Sáng']",Nữ,"Đam mê thiết kế giao diện và vẽ","Tỉ mỉ, thân thiện"
+Quỳnh,"['Toán rời rạc']","['Chiều', 'Tối']",Nữ,"Giải đố logic, tham gia câu lạc bộ toán","Phân tích, kiên trì"
+Thành,"['Kỹ năng mềm', 'Kỹ thuật lập trình']","['Sáng']",Nam,"Thích thuyết trình và tổ chức sự kiện","Hướng ngoại, linh hoạt"
+Linh,"['Cơ sở lập trình', 'Nhập môn CNTT']","['Sáng', 'Chiều']",Nữ,"Thích làm dự án nhóm, học công nghệ mới","Nhiệt tình, kiên nhẫn"
