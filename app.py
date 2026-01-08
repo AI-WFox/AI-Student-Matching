@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sentence_transformers import SentenceTransformer
 import os
+import sys
 import ast
 
 # --- Cấu hình ---
@@ -27,10 +28,10 @@ def load_data():
             # Chuyển chuỗi -> list lại cho các cột chứa danh sách
             for col in ["Môn học", "Thời gian rảnh"]:
                 df[col] = df[col].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
-            print(f"Đã tải dữ liệu từ {csv_path}", file=os.sys.stderr)
+            print(f"Đã tải dữ liệu từ {csv_path}", file=sys.stderr)
             return df
         except Exception as e:
-            print(f"Không thể đọc file CSV: {e}. Sử dụng dữ liệu mẫu.", file=os.sys.stderr)
+            print(f"Không thể đọc file CSV: {e}. Sử dụng dữ liệu mẫu.", file=sys.stderr)
     
     # Dữ liệu mẫu (fallback)
     data = {
