@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  web-app:
+    build: .
+    image: ai-matching:latest
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./user_data.csv:/app/user_data.csv
+    restart: always
