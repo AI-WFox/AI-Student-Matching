@@ -46,6 +46,11 @@ docker build -t ai-student-matching:latest .
 docker run -p 8080:8501 -v $(pwd)/data:/app/data ai-student-matching:latest
 ```
 
+3. Docker compose:
+```bash
+docker compose up
+```
+
 ## Project Structure
 
 * `app.py`: The main Streamlit web application.
