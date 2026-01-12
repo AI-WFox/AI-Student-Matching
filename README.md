@@ -33,6 +33,24 @@ An intelligent study partner recommendation system that uses Natural Language Pr
    
    ```
 
+## Docker
+
+1. Build the image:
+```bash
+docker build -t ai-student-matching:latest .
+```
+
+2. Run the image (port 8080):
+```bash
+# We mount a local folder to the container's '/app/data'
+docker run -p 8080:8501 -v $(pwd)/data:/app/data ai-student-matching:latest
+```
+
+3. Docker compose:
+```bash
+docker compose up
+```
+
 ## Project Structure
 
 * `app.py`: The main Streamlit web application.
