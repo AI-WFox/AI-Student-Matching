@@ -17,20 +17,18 @@ An intelligent study partner recommendation system that uses Natural Language Pr
 ## Installation & Setup
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/AI-WFox/AI-Student-Matching.git](https://github.com/AI-WFox/AI-Student-Matching.git)
-
+   git clone https://github.com/AI-WFox/AI-Student-Matching.git
+   cd AI-Student-Matching
    ```
 
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
-   
    ```
 
 3. Run the application:
    ```bash
    streamlit run app.py
-   
    ```
 
 ## Project Structure
