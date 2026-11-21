@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  web-app:
+    build: .
+    image: ai-student-matching:latest
+    ports:
+      - "8080:8501"
+    volumes:
+      - ./data:/app/data
+    restart: always
